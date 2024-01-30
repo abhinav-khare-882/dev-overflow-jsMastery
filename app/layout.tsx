@@ -2,7 +2,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { Metadata } from "next";
 import React from "react";
-import "./globals.css"; // Adjust the path as needed
+import "./globals.css";
+import { ThemeProvider } from "@/context/ThemeProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,23 +20,27 @@ export const metadata: Metadata = {
   title: "DevOverflow",
   description: "A community-driven platform for asking and answering programming questions...",
   icons: {
-    icon: "/public/assets/images/site-logo.svg", // Corrected the property name
+    icon: "/public/assets/images/site-logo.svg",
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <ClerkProvider
-        appearance={{
-          elements: {
-            forrmButtonPrimary: "primary-gradient",
-            footerActionLink: "primary-text-gradient hover:text-primary-500",
-          },
-        }}
-      >
-        <body className={`${inter.variable} ${spaceGrotesk}`}>{children}</body>
-      </ClerkProvider>
+      <html>
+        <body className={`${inter.variable} ${spaceGrotesk}`}>
+          <ClerkProvider
+            appearance={{
+              elements: {
+                forrmButtonPrimary: "primary-gradient",
+                footerActionLink: "primary-text-gradient hover:text-primary-500",
+              },
+            }}
+          >
+            <ThemeProvider>{children}</ThemeProvider>
+          </ClerkProvider>
+        </body>
+      </html>
     </>
   );
 }
